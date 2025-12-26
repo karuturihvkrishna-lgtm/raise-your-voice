@@ -1,27 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel - Raise Your Voice</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Admin Panel - Complaints</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
 
-<h1>Admin Login</h1>
+  <h2> Student Complaints (Admin Panel)</h2>
+  <p id="status"></p>
 
-<div class="box">
-  <input type="email" id="adminEmail" placeholder="Admin Email">
-  <input type="password" id="adminPassword" placeholder="Password">
-  <button onclick="adminLogin()">Login</button>
-  <p id="adminMsg"></p>
-</div>
+  <ul id="complaintList"></ul>
 
-<h2>Complaints</h2>
-<ul id="complaintList"></ul>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-<!-- ✅ SCRIPT MUST BE LIKE THIS -->
-<script type="module" src="script.js"></script>
+    // SAME SUPABASE SETTINGS AS YOUR STUDENT FORM
+    const supabaseUrl = "https://etolbcnppnrbgkcvhtlz.supabase.co";
+    const supabaseKey = "sb_publishable_yW9TdRO-Ku1dALC1JnHIoA_DcKBAQic";
 
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const status = document.getElementById("status");
+    const list = document.getElementById("complaintList");
+
+    // ================== LOAD COMPLAINTS ==================
+    async function loadComplaints() {
+      status.innerText = " Loading complaints...";
+
+      const { data, error } = await supabase
+        .from("complaints")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        status.innerText = " Error loading complaints.";
+        console.error(error);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        status.innerText = " No complaints found.";
+        return;
+      }
+
+      status.innerText = "";
+      list.innerHTML = "";
+
+      data.forEach(c => {
+        const item = document.createElement("li");
+        item.innerHTML = `
+          <div class="card">
+            <strong> ${c.name}</strong><br>
+            <b>Category:</b> ${c.category}<br><br>
+            ${c.complaint}<br><br>
+            <small> ${new Date(c.created_at).toLocaleString()}</small>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    loadComplaints(); // Auto load on page open
+  </script>
 </body>
 </html>
-
