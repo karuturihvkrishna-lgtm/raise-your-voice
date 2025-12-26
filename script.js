@@ -85,4 +85,3 @@ async function loadComplaints() {
     list.appendChild(li);
   });
 }
-
