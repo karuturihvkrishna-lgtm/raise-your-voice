@@ -64,23 +64,34 @@ window.adminLogin = async function () {
 };
 
 // ================= LOAD COMPLAINTS =================
+// ================= LOAD ALL COMPLAINTS =================
 async function loadComplaints() {
   const list = document.getElementById("complaintList");
-  list.innerHTML = "";
+  list.innerHTML = " Loading complaints...";
 
+  // Fetch complaints from Supabase
   const { data, error } = await supabase
     .from("complaints")
-    .select("*")
+    .select("name, category, complaint, created_at")
     .order("created_at", { ascending: false });
 
+  // Handle error
   if (error) {
-    console.error(error);
+    list.innerHTML = " Unable to load complaints. Please try again later.";
+    console.error("Supabase Error:", error);
     return;
   }
 
-  data.forEach(c => {
+  // No data found
+  if (!data || data.length === 0) {
+    list.innerHTML = " No complaints submitted yet.";
+    return;
+  }
+
+  // Clear previous content
+  list.innerHTML = "";
+
+  // Display each complaint
+  data.forEach((c) => {
     const li = document.createElement("li");
-    li.innerText = `${c.name} | ${c.category} | ${c.complaint}`;
-    list.appendChild(li);
-  });
-}
+    li.style.marginBottom = "15px";
