@@ -40,3 +40,47 @@ window.submitComplaint = async function () {
     document.getElementById("complaint").value = "";
   }
 };
+// ================= ADMIN LOGIN =================
+window.adminLogin = async function () {
+  const email = document.getElementById("adminEmail").value;
+  const password = document.getElementById("adminPassword").value;
+  const adminMsg = document.getElementById("adminMsg");
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    adminMsg.innerText = "Login failed";
+    adminMsg.style.color = "red";
+    return;
+  }
+
+  adminMsg.innerText = "Login successful";
+  adminMsg.style.color = "green";
+
+  loadComplaints();
+};
+
+// ================= LOAD COMPLAINTS =================
+async function loadComplaints() {
+  const list = document.getElementById("complaintList");
+  list.innerHTML = "";
+
+  const { data, error } = await supabase
+    .from("complaints")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  data.forEach(c => {
+    const li = document.createElement("li");
+    li.innerText = `${c.name} | ${c.category} | ${c.complaint}`;
+    list.appendChild(li);
+  });
+}
