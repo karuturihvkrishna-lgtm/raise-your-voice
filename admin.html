@@ -1,22 +1,25 @@
-// ================= ADMIN LOGIN =================
-window.adminLogin = async function () {
-  const email = document.getElementById("adminEmail").value;
-  const password = document.getElementById("adminPassword").value;
-  const adminMsg = document.getElementById("adminMsg");
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+<h1>Admin Login</h1>
 
-  if (error) {
-    adminMsg.innerText = "Login failed: " + error.message;
-    adminMsg.style.color = "red";
-    return;
-  }
+<div class="box">
+  <input id="adminEmail" placeholder="Admin Email">
+  <input id="adminPassword" type="password" placeholder="Password">
+  <button onclick="adminLogin()">Login</button>
+  <p id="adminMsg"></p>
+</div>
 
-  adminMsg.innerText = "Login successful";
-  adminMsg.style.color = "green";
+<h2>Complaints</h2>
+<ul id="complaintList"></ul>
 
-  loadComplaints();
-};
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
+
