@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Raise Your Voice</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -9,8 +10,8 @@
 <h1>Admin Login</h1>
 
 <div class="box">
-  <input id="adminEmail" placeholder="Admin Email">
-  <input id="adminPassword" type="password" placeholder="Password">
+  <input type="email" id="adminEmail" placeholder="Admin Email">
+  <input type="password" id="adminPassword" placeholder="Password">
   <button onclick="adminLogin()">Login</button>
   <p id="adminMsg"></p>
 </div>
@@ -18,6 +19,7 @@
 <h2>Complaints</h2>
 <ul id="complaintList"></ul>
 
+<!-- ✅ SCRIPT MUST BE LIKE THIS -->
 <script type="module" src="script.js"></script>
 
 </body>
