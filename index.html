@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Raise Your Voice</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Raise Your Voice</h1>
+<p>College Grievance Redressal System</p>
+
+<div class="box">
+  <input id="name" placeholder="Student Name">
+
+  <select id="category">
+    <option value="">Select Category</option>
+    <option>Academic</option>
+    <option>Hostel</option>
+    <option>Facilities</option>
+    <option>Ragging</option>
+    <option>Other</option>
+  </select>
+
+  <textarea id="complaint" placeholder="Write your complaint"></textarea>
+
+  <button onclick="submitComplaint()">Submit Complaint</button>
+
+  <p id="msg"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
